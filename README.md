@@ -13,7 +13,7 @@
   1. [CUBRID](http://en.wikipedia.org/wiki/CUBRID) (no spatial data)
   2. [DB2](http://en.wikipedia.org/wiki/IBM_DB2) + [Spatial Extender](http://www.ibm.com/software/data/spatial/db2spatial/)
   3. [Informix](http://en.wikipedia.org/wiki/IBM_Informix) + [Spatial DataBlade](http://www.ibm.com/software/data/informix/blades/spatial/)
-  4. [Ingres](http://en.wikipedia.org/wiki/Ingres_(database)) (no valid spatial index)
+  4. [Ingres](http://en.wikipedia.org/wiki/Ingres_database) (no valid spatial index)
   5. [Microsoft SQL Server](http://en.wikipedia.org/wiki/Microsoft_SQL_Server)
   6. [MySQL](http://en.wikipedia.org/wiki/MySQL)
   7. [Oracle](http://en.wikipedia.org/wiki/Oracle_Database)
