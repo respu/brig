@@ -47,6 +47,7 @@
 
 ### proj
  * use to change a projection of [WKB](http://en.wikipedia.org/wiki/Well-known_text#Well-known_binary) / [OpenGIS 99-049](http://www.opengeospatial.org/standards/sfs)
+ * [EPSG](http://www.epsg.org/) support
  * depends on [PROJ.4](http://trac.osgeo.org/proj/) ([header only](http://en.wikipedia.org/wiki/Header-only) + [dynamic loading](http://en.wikipedia.org/wiki/Dynamic_loading))
 
 ### qt
