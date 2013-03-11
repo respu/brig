@@ -1,10 +1,10 @@
 [Brig](http://code.google.com/p/brig/) is a collection of cross-platform [C++ 11](http://en.wikipedia.org/wiki/C%2B%2B) [header only](http://en.wikipedia.org/wiki/Header-only) libraries that offers interaction with many databases and usability of the geometric data.
 
 ## Use cases
- * [how to copy table from Postgres to SQLite/SpatiaLite new file](https://github.com/storm-ptr/brig/wiki/database_copy_table)
- * [how to read 3 rows from every CUBRID database table](https://github.com/storm-ptr/brig/wiki/database_select_first_n_rows)
- * [how to read SQLite/SpatiaLite geometry that intersected with rect](https://github.com/storm-ptr/brig/wiki/database_select_where_intersects)
- * [how to draw ESRI Shapefile](https://github.com/storm-ptr/brig/wiki/gdal_ogr_qt)
+ * [how to copy table from Postgres to SQLite/SpatiaLite new file](https://github.com/storm-ptr/brig/wiki/copy_table_from_postgres_to_sqlite_new_file)
+ * [how to read 3 rows from every CUBRID database table](https://github.com/storm-ptr/brig/wiki/read_first_3_rows_from_every_cubrid_database_table)
+ * [how to read SQLite/SpatiaLite geometry that intersected with rect](https://github.com/storm-ptr/brig/wiki/read_spatialite_geometry_that_intersected_with_rect)
+ * [how to draw ESRI Shapefile](https://github.com/storm-ptr/brig/wiki/draw_esri_shapefiles)
 
 ## Libraries
 
