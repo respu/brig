@@ -69,7 +69,8 @@
 
 ## See also
  * [CUBRID website](http://www.cubrid.org/wiki_apps/entry/brig-key-features)
- * [GIS commander (sample program)](http://code.google.com/p/brigantine/)
+ * [GIS commander](http://code.google.com/p/brigantine/)
+ * [Flagship game](https://sites.google.com/site/flagshipgame/)
 
 
 ----
