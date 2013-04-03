@@ -13,7 +13,7 @@
  * depends on [Boost](http://www.boost.org/) ([header only](http://en.wikipedia.org/wiki/Header-only))
 
 ### database
- * use to interact with databases:
+ * use as a compact wrapper for a unified access to databases:
   1. [CUBRID](http://en.wikipedia.org/wiki/CUBRID) (no spatial data)
   2. [DB2](http://en.wikipedia.org/wiki/IBM_DB2) + [Spatial Extender](http://www.ibm.com/software/data/spatial/db2spatial/)
   3. [Informix](http://en.wikipedia.org/wiki/IBM_Informix) + [Spatial DataBlade](http://www.ibm.com/software/data/informix/blades/spatial/)
