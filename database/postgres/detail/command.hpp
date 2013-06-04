@@ -11,7 +11,6 @@
 #include <brig/database/postgres/detail/get_value_factory.hpp>
 #include <brig/database/postgres/detail/lib.hpp>
 #include <brig/global.hpp>
-#include <brig/identifier.hpp>
 #include <brig/string_cast.hpp>
 #include <brig/unicode/lower_case.hpp>
 #include <brig/unicode/transform.hpp>
@@ -44,7 +43,7 @@ public:
   bool fetch(std::vector<variant>& row) override;
   void set_autocommit(bool autocommit) override;
   void commit() override;
-  DBMS system() override  { return Postgres; }
+  DBMS system() override  { return DBMS::Postgres; }
   std::string sql_param(size_t order) override  { return "$" + string_cast<char>(order + 1); }
 }; // command
 
@@ -59,7 +58,7 @@ inline void command::check(bool r)
 inline void command::check_command(PGresult* res)
 {
   const ExecStatusType r(lib::singleton().p_PQresultStatus(res));
-  lib::singleton().p_PQclear(res);
+  if (res) lib::singleton().p_PQclear(res);
   check(r == PGRES_COMMAND_OK);
 }
 
@@ -75,7 +74,8 @@ inline void command::close_result()
   if (m_fetch)
   {
     m_fetch = false;
-    lib::singleton().p_PQclear(lib::singleton().p_PQexec(m_con, "CLOSE BrigCursor; END;"));
+    PGresult* res(lib::singleton().p_PQexec(m_con, "CLOSE BrigCursor; END;"));
+    if (res) lib::singleton().p_PQclear(res);
   }
 }
 

@@ -24,10 +24,7 @@ inline std::vector<pyramid_def> get_rasters(rowset* rs)
   identifier prev_id;
   while (rs->fetch(row))
   {
-    identifier cur_id;
-    cur_id.schema = string_cast<char>(row[0]);
-    cur_id.name = string_cast<char>(row[1]);
-    cur_id.qualifier = string_cast<char>(row[2]);
+    identifier cur_id = { string_cast<char>(row[0]), string_cast<char>(row[1]), string_cast<char>(row[2]) };
     if (cur_id.schema != prev_id.schema || cur_id.name != prev_id.name || cur_id.qualifier != prev_id.qualifier)
     {
       res.push_back(pyramid_def());
@@ -35,14 +32,14 @@ inline std::vector<pyramid_def> get_rasters(rowset* rs)
       prev_id = cur_id;
     }
 
-    tiling_def lvl;
+    tilemap_def lvl;
     numeric_cast(row[3], lvl.resolution_x);
     numeric_cast(row[4], lvl.resolution_y);
     lvl.geometry.schema = string_cast<char>(row[5]);
     lvl.geometry.name = string_cast<char>(row[6]);
     lvl.geometry.qualifier = string_cast<char>(row[7]);
     lvl.raster.name = string_cast<char>(row[8]);
-    lvl.raster.type = Blob;
+    lvl.raster.type = column_type::Blob;
     res.back().levels.push_back(lvl);
   }
   return res;
@@ -62,8 +59,8 @@ inline std::vector<pyramid_def> get_raster_layers(dialect* dct, command* cmd)
     {
       cmd->exec(dct->sql_rasters());
       native = get_rasters(cmd);
-      for (auto raster(begin(native)); raster != end(native); ++raster)
-        dct->init_raster(*raster);
+      for (auto& raster: native)
+        dct->init_raster(raster);
     }
   }
 

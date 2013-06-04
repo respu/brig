@@ -22,18 +22,18 @@ namespace brig { namespace osm { namespace detail {
 
 class rowset : public brig::rowset
 {
-  struct row_t {
+  struct data_t {
     tile tl;
     blob_t* rast;
-    row_t() : tl(0, 0, 0), rast(0)  {}
-  }; // row_t
+    data_t() : tl(0, 0, 0), rast(0)  {}
+  }; // data_t
 
   std::shared_ptr<layer> m_lr;
   const std::vector<bool> m_cols;
   int m_rows;
-  tiles m_iter;
+  tiles m_tls;
   CURLM* m_hnd;
-  std::unordered_map<CURL*, row_t> m_pg;
+  std::unordered_map<CURL*, data_t> m_pg;
 
   static size_t write(void* ptr, size_t size, size_t nmemb, blob_t* blob);
   static void check(CURLcode r);
@@ -42,7 +42,7 @@ class rowset : public brig::rowset
   void add_files();
 
 public:
-  rowset(std::shared_ptr<layer> lr, const std::vector<bool>& cols, int zoom, const brig::boost::box& env, int rows);
+  rowset(std::shared_ptr<layer> lr, const std::vector<bool>& cols, int zoom, const boost::box& env, int rows);
   ~rowset() override;
   std::vector<std::string> columns() override;
   bool fetch(std::vector<variant>& row) override;
@@ -72,8 +72,8 @@ inline void rowset::check(CURLMcode r)
   throw std::runtime_error(msg);
 }
 
-inline rowset::rowset(std::shared_ptr<layer> lr, const std::vector<bool>& cols, int zoom, const brig::boost::box& env, int rows)
-  : m_lr(lr), m_cols(cols), m_rows(rows), m_iter(zoom, env), m_hnd(0)
+inline rowset::rowset(std::shared_ptr<layer> lr, const std::vector<bool>& cols, int zoom, const boost::box& env, int rows)
+  : m_lr(lr), m_cols(cols), m_rows(rows), m_tls(zoom, env), m_hnd(0)
 {
   if (lib::singleton().empty()) throw std::runtime_error("cURL error");
   m_hnd = lib::singleton().p_curl_multi_init();
@@ -82,12 +82,11 @@ inline rowset::rowset(std::shared_ptr<layer> lr, const std::vector<bool>& cols, 
 
 inline rowset::~rowset()
 {
-  using namespace std;
-  for (auto iter(begin(m_pg)); iter != end(m_pg); ++iter)
+  for (auto row: m_pg)
   {
-    lib::singleton().p_curl_multi_remove_handle(m_hnd, iter->first);
-    lib::singleton().p_curl_easy_cleanup(iter->first);
-    delete iter->second.rast;
+    lib::singleton().p_curl_multi_remove_handle(m_hnd, row.first);
+    lib::singleton().p_curl_easy_cleanup(row.first);
+    delete row.second.rast;
   }
   lib::singleton().p_curl_multi_cleanup(m_hnd);
 }
@@ -97,8 +96,8 @@ inline std::vector<std::string> rowset::columns()
   std::vector<std::string> cols;
   for (size_t i(0); i < m_cols.size(); ++i)
   {
-    if (m_cols[i]) cols.push_back(PNG());
-    else cols.push_back(WKB());
+    if (m_cols[i]) cols.push_back(ColumnNamePng);
+    else cols.push_back(ColumnNameWkb);
   }
   return cols;
 }
@@ -109,7 +108,7 @@ inline void rowset::add_files()
   {
     if (m_rows == 0) break;
     tile tl(0, 0, 0);
-    if (!m_iter.fetch(tl)) break;
+    if (!m_tls.fetch(tl)) break;
     if (m_rows > 0) --m_rows;
 
     CURL* hnd(lib::singleton().p_curl_easy_init());
@@ -117,7 +116,7 @@ inline void rowset::add_files()
     auto del = [](CURL* ptr) { lib::singleton().p_curl_easy_cleanup(ptr); };
     std::unique_ptr<CURL, decltype(del)> raii_hnd(hnd, del);
 
-    row_t data;
+    data_t data;
     data.tl = tl;
     data.rast = new blob_t();
     m_pg[hnd] = data;
@@ -156,7 +155,7 @@ inline bool rowset::fetch(std::vector<variant>& row)
 
   const size_t count(m_cols.size());
   row.resize(count);
-  row_t& data(m_pg.at(hnd));
+  data_t& data(m_pg.at(hnd));
   for (size_t i(0); i < count; ++i)
   {
     if (m_cols[i])
