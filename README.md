@@ -64,7 +64,7 @@
 
 
 ## Test compilers
- * [GCC 4.7.2](http://en.wikipedia.org/wiki/GNU_Compiler_Collection)
+ * [GCC 4.7.3](http://en.wikipedia.org/wiki/GNU_Compiler_Collection)
  * [MinGW 4.7.2 (threads-posix, sjlj)](http://sourceforge.net/projects/mingwbuilds/)
  * [Visual C++ Compiler November 2012 CTP](http://aka.ms/vc-ctp)
 
