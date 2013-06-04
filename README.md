@@ -1,5 +1,8 @@
 [Brig](http://code.google.com/p/brig/) is a collection of cross-platform [C++ 11](http://en.wikipedia.org/wiki/C%2B%2B) [header only](http://en.wikipedia.org/wiki/Header-only) libraries that offers interaction with many databases and usability of the geometric data.
 
+## Quick start
+ * [Windows](https://github.com/storm-ptr/brig/wiki/quick_start_windows)
+
 ## Use cases
  * [how to copy table from Postgres to SQLite/SpatiaLite new file](https://github.com/storm-ptr/brig/wiki/copy_table_from_postgres_to_sqlite_new_file)
  * [how to read 3 rows from every CUBRID database table](https://github.com/storm-ptr/brig/wiki/read_first_3_rows_from_every_cubrid_database_table)
